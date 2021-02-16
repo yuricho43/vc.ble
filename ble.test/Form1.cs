@@ -17,14 +17,14 @@ namespace ble.test
         //static DeviceWatcher watcher = null;
 
         Bleservice ble;
-        Bleservice bleB;
+        Bleservice ble2;
         public Form1()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            bleB = new Bleservice();
+
             ble = new Bleservice();
-            
+            ble2 = new Bleservice();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace ble.test
         }
 
 
-        private async void RunTask(TaskName taskName, string deviceName, Action<ERROR_CODE> callback)
+        private async void RunTask(TaskName taskName, string arg1, string arg2, Action<ERROR_CODE> callback)
         {
             // 비동기로 Worker Thread에서 도는 task1
             // Task.Run(): .NET Framework 4.5+
@@ -54,20 +54,20 @@ namespace ble.test
             switch (taskName)
             {
                 case TaskName.OPEN_DEVICE:
-                    result = await ble.OpenDevice(deviceName);
+                    result = await ble.OpenDevice(arg1);
                     listStatus.Items.Add($"ErrorCode: {result}");
                     break;
 
                 case TaskName.SET_SERVICE:
                     //task1 = Task.Run(() => bleservice.SetService(deviceName));
                     //result = await task1;
-                    result = await ble.SetService(deviceName);
+                    result = await ble.SetService(arg2);
                     listStatus.Items.Add($"ErrorCode: {result}");
                     break;
 
                 case TaskName.READ_CHARACTERISTIC:
                     string resultString;
-                    result = await ble.ReadCharacteristic(deviceName);
+                    result = await ble.ReadCharacteristic(arg1, arg2);
                     listStatus.Items.Add($"ErrorCode: {result}");
                     if (result == ERROR_CODE.NONE)
                     {
@@ -99,7 +99,7 @@ namespace ble.test
             string parameters = listDevice.SelectedItem.ToString();
             // only allow for one connection to be open at a time
             listStatus.Items.Add(parameters);
-            RunTask(TaskName.OPEN_DEVICE, parameters, (arg) => { } );  
+            RunTask(TaskName.OPEN_DEVICE, parameters, null, (arg) => { } );  
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -114,10 +114,11 @@ namespace ble.test
         // click Set Service Button
         private void button6_Click(object sender, EventArgs e)
         {
+            string devName = listDevice.SelectedItem.ToString();
             string parameters = listService.SelectedItem.ToString();
             // only allow for one connection to be open at a time
             listStatus.Items.Add(parameters);
-            RunTask(TaskName.SET_SERVICE, parameters, (result) => { });
+            RunTask(TaskName.SET_SERVICE, devName, parameters, (result) => { });
             //button7_Click(sender, e);
         }
 
@@ -135,11 +136,12 @@ namespace ble.test
         // click Read Characteristics button
         private void button8_Click(object sender, EventArgs e)
         {
+            string devName = listDevice.SelectedItem.ToString();
             string parameters = listCharacteristic.SelectedItem.ToString();
             // only allow for one connection to be open at a time
 
             listStatus.Items.Add(parameters);
-            RunTask(TaskName.READ_CHARACTERISTIC, parameters, (arg) => { });
+            RunTask(TaskName.READ_CHARACTERISTIC, devName, parameters, (arg) => { });
         }
 
 
@@ -154,10 +156,11 @@ namespace ble.test
             listDevice.Items.Clear();
             listStatus.Items.Add("Start Scan");
 
+            
             var result = ble.StartScan(parameters, (d) => listStatus.Items.Add(d) );
 
             listStatus.Items.Add(result.ToString());
-            if (result.Equals(ERROR_CODE.INFO_FOUND_DEVICE))
+            if (result.Equals(ERROR_CODE.BLE_FOUND_DEVICE))
             {
                 var error_code = await ble.OpenDevice(parameters);
                 listStatus.Items.Add($"Connection Result: {error_code}");
@@ -166,10 +169,12 @@ namespace ble.test
 
         private async void button9_Click(object sender, EventArgs e)
         {
+            string dev_name = textBox1.Text.ToString();
             string characteristic_name = "Battery/BatteryLevel";
             listStatus.Items.Add($"set {characteristic_name}");
-            var error_code = await ble.ReadCharacteristic(characteristic_name);
-            if(error_code == ERROR_CODE.NONE)
+            var error_code = await ble.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
                 listStatus.Items.Add($"{characteristic_name}: {ble.getCharacteristic()}");
         }
 
@@ -180,9 +185,11 @@ namespace ble.test
         /// <param name="e"></param>
         private async void button10_Click(object sender, EventArgs e)
         {
+            string dev_name = textBox1.Text.ToString();
             string characteristic_name = "EnvironmentalSensing/Temperature";
             listStatus.Items.Add($"set {characteristic_name}");
-            var error_code = await ble.ReadCharacteristic(characteristic_name);
+            var error_code = await ble.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
             if (error_code == ERROR_CODE.NONE)
             {
                 listStatus.Items.Add($"{characteristic_name}: {ble.getCharacteristic()}");
@@ -195,9 +202,11 @@ namespace ble.test
         /// <param name="e"></param>
         private async void button11_Click(object sender, EventArgs e)
         {
+            string dev_name = textBox1.Text.ToString();
             string characteristic_name = "EnvironmentalSensing/Humidity";
             listStatus.Items.Add($"set {characteristic_name}");
-            var error_code = await ble.ReadCharacteristic(characteristic_name);
+            var error_code = await ble.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
             if (error_code == ERROR_CODE.NONE) 
             {
                 listStatus.Items.Add($"{characteristic_name}: {ble.getCharacteristic()}");
@@ -211,9 +220,11 @@ namespace ble.test
         /// <param name="e"></param>
         private async void button12_Click(object sender, EventArgs e)
         {
+            string dev_name = textBox1.Text.ToString();
             string characteristic_name = "EnvironmentalSensing/TVOC";
             listStatus.Items.Add($"set {characteristic_name}");
-            var error_code = await ble.ReadCharacteristic(characteristic_name);
+            var error_code = await ble.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
             if (error_code == ERROR_CODE.NONE)
             {
                 listStatus.Items.Add($"{characteristic_name}: {ble.getCharacteristic()}");
@@ -226,9 +237,11 @@ namespace ble.test
         /// <param name="e"></param>
         private async void button13_Click(object sender, EventArgs e)
         {
+            string dev_name = textBox1.Text.ToString();
             string characteristic_name = "VCService/FanSpeed";
             listStatus.Items.Add($"set {characteristic_name}");
-            var error_code = await ble.ReadCharacteristic(characteristic_name);
+            var error_code = await ble.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
             if (error_code == ERROR_CODE.NONE)
             {
                 listStatus.Items.Add($"{characteristic_name}: {ble.getCharacteristic()}");
@@ -266,13 +279,13 @@ namespace ble.test
             string parameters = textBox3.Text.ToString();
             listDevice.Items.Clear();
             listStatus.Items.Add("Start Scan");
-
-            var result = bleB.StartScan(parameters, (d) => listStatus.Items.Add(d));
+            
+            var result = ble2.StartScan(parameters, (d) => listStatus.Items.Add(d));
 
             listStatus.Items.Add(result.ToString());
-            if (result.Equals(ERROR_CODE.INFO_FOUND_DEVICE))
+            if (result.Equals(ERROR_CODE.BLE_FOUND_DEVICE))
             {
-                var error_code = await bleB.OpenDevice(parameters);
+                var error_code = await ble2.OpenDevice(parameters);
                 listStatus.Items.Add($"Connection Result: {error_code}");
             }
         }
@@ -282,7 +295,8 @@ namespace ble.test
             string parameters = textBox1.Text.ToString();
             listDevice.Items.Clear();
             listStatus.Items.Add("Start Scan");
-
+            
+            ble.CloseDevice();
             var result = ble.StartScan(parameters, (d) => listStatus.Items.Add(d));
 
             listStatus.Items.Add(result.ToString());
@@ -300,6 +314,93 @@ namespace ble.test
 
             var error_code = await ble.UnPairing(parameters);
             listStatus.Items.Add($"result: {parameters}: {error_code} ");
+        }
+
+        private async void button19_Click(object sender, EventArgs e)
+        {
+            var index = 0;
+            for (; ;index++ ) {
+                listStatus.Items.Add($"try index : {index}");
+                button17_Click(sender, e);
+                await Task.Delay(10000);
+                button18_Click(sender, e);
+                await Task.Delay(10000);
+                ble.CloseDevice();
+                listStatus.TopIndex = listStatus.Items.Count - 1;
+            }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void button24_Click(object sender, EventArgs e)
+        {
+            string dev_name = textBox3.Text.ToString();
+            string characteristic_name = "EnvironmentalSensing/Temperature";
+            listStatus.Items.Add($"set {characteristic_name}");
+            var error_code = await ble2.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
+            {
+                listStatus.Items.Add($"{characteristic_name}: {ble2.getCharacteristic()}");
+            }
+        }
+
+        private async void button23_Click(object sender, EventArgs e)
+        {
+            string dev_name = textBox3.Text.ToString();
+            string characteristic_name = "EnvironmentalSensing/Humidity";
+            listStatus.Items.Add($"set {characteristic_name}");
+            var error_code = await ble2.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
+            {
+                listStatus.Items.Add($"{characteristic_name}: {ble2.getCharacteristic()}");
+            }
+        }
+
+        private async void button22_Click(object sender, EventArgs e)
+        {
+            string dev_name = textBox3.Text.ToString();
+            string characteristic_name = "EnvironmentalSensing/TVOC";
+            listStatus.Items.Add($"set {characteristic_name}");
+            var error_code = await ble2.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
+            {
+                listStatus.Items.Add($"{characteristic_name}: {ble2.getCharacteristic()}");
+            }
+        }
+
+        private async void button21_Click(object sender, EventArgs e)
+        {
+            string dev_name = textBox3.Text.ToString();
+            string characteristic_name = "VCService/FanSpeed";
+            listStatus.Items.Add($"set {characteristic_name}");
+            var error_code = await ble2.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
+            {
+                listStatus.Items.Add($"{characteristic_name}: {ble2.getCharacteristic()}");
+            }
+        }
+
+        private async void button25_Click(object sender, EventArgs e)
+        {
+            string dev_name = textBox3.Text.ToString();
+            string characteristic_name = "Battery/BatteryLevel";
+            listStatus.Items.Add($"set {characteristic_name}");
+            var error_code = await ble2.ReadCharacteristic(dev_name, characteristic_name);
+            listStatus.Items.Add($"ErrorCode: {error_code}");
+            if (error_code == ERROR_CODE.NONE)
+                listStatus.Items.Add($"{characteristic_name}: {ble2.getCharacteristic()}");
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -25,8 +25,6 @@ namespace ble.test
         string _aqsAllBLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
 
         ObservableCollection<BluetoothLEDeviceDisplay> KnownDevices = new ObservableCollection<BluetoothLEDeviceDisplay>();
-        List<DeviceInformation> UnknownDevices = new List<DeviceInformation>();
-
         List<DeviceInformation> _deviceList = new List<DeviceInformation>();
         BluetoothLEDevice _selectedDevice = null;
 
@@ -64,7 +62,7 @@ namespace ble.test
         string ble_device = "VC Z1 15A0";
 
         TimeSpan _timeout = TimeSpan.FromSeconds(3);
-
+       
         public Bleservice()
         {
             Console.WriteLine("instance create");
@@ -82,12 +80,12 @@ namespace ble.test
             //{
             //    _deviceList.Remove(FindKnownDevice(devInfo.Id));
             //};
-            
+ 
             watcher.EnumerationCompleted += (DeviceWatcher arg1, object arg) => { arg1.Stop(); };
             watcher.Stopped += (DeviceWatcher arg1, object arg) => { _deviceList.Clear(); arg1.Start(); };
             watcher.Start();
             KnownDevices.Clear();
-            return ERROR_CODE.INFO_FOUND_DEVICE;
+            return ERROR_CODE.BLE_FOUND_DEVICE;
         }
         public ERROR_CODE StartScan(string devName, Action<string> callback)
         {
@@ -100,7 +98,7 @@ namespace ble.test
                     if (_deviceList.FirstOrDefault(d => d.Id.Equals(devInfo.Id) || d.Name.Equals(devInfo.Name)) == null) _deviceList.Add(devInfo);
                     callback($"Found {devName}");
                     watcher.Stop();
-                    autoEvent.Set(); 
+                    autoEvent.Set();
                 }
             };
             watcher.Updated += (_, __) => { }; // We need handler for this event, even an empty!
@@ -117,7 +115,7 @@ namespace ble.test
             autoEvent.WaitOne(5000);
             if (_deviceList.Count == 0)
                 return ERROR_CODE.NO_SELECTED_SERVICE;
-            return ERROR_CODE.INFO_FOUND_DEVICE;
+            return ERROR_CODE.BLE_FOUND_DEVICE;
         }
         public void CloseDevice()
         {
@@ -131,116 +129,131 @@ namespace ble.test
                 _characteristics?.Clear();
                 _selectedDevice?.Dispose();
             }
+            _deviceList?.Clear();
+        }
+
+
+        public ERROR_CODE ConnnectionStatus(string deviceName)
+        {
+            ERROR_CODE result = ERROR_CODE.BLE_NO_CONNECTED;
+            if (_selectedDevice == null)
+            {
+                return ERROR_CODE.BLE_NO_CONNECTED;
+            }
+            if (_selectedDevice.Name.Equals(deviceName) && _selectedDevice.ConnectionStatus == BluetoothConnectionStatus.Connected)
+            {
+                result = ERROR_CODE.BLE_CONNECTED;
+            }
+            return result;
         }
 
         public string getCharacteristic()
         {
             return _resultCharacteristic;
         }
+
         /// <summary>
         /// This function reads data from the specific BLE characteristic 
         /// </summary>
         /// <param name="param"></param>
-        public async Task<ERROR_CODE> ReadCharacteristic(string param)
+        public async Task<ERROR_CODE> ReadCharacteristic(string devName, string param)
         {
-            ERROR_CODE task_result = ERROR_CODE.NONE;
-            if (_selectedDevice != null)
+            ERROR_CODE task_result = ERROR_CODE.UNKNOWN_ERROR;
+
+            if (ConnnectionStatus(devName) != ERROR_CODE.BLE_CONNECTED)
             {
-                if (!string.IsNullOrEmpty(param))
+                task_result = ERROR_CODE.BLE_NO_CONNECTED;
+                Console.WriteLine("No BLE device connected.");
+                return task_result;
+            }
+            if (string.IsNullOrEmpty(param))
+            {
+                task_result = ERROR_CODE.READ_NOTHING_TO_READ;
+                Console.WriteLine("Nothing to read, please specify characteristic name or #.");
+                return task_result;
+            }
+
+            List<BluetoothLEAttributeDisplay> chars = new List<BluetoothLEAttributeDisplay>();
+
+            string charName = string.Empty;
+            var parts = param.Split('/');
+            // Do we have parameter is in "service/characteristic" format?
+            if (parts.Length == 2)
+            {
+                string serviceName = Utilities.GetIdByNameOrNumber(_services, parts[0]);
+                charName = parts[1];
+
+                // If device is found, connect to device and enumerate all services
+                if (!string.IsNullOrEmpty(serviceName))
                 {
-                    List<BluetoothLEAttributeDisplay> chars = new List<BluetoothLEAttributeDisplay>();
+                    var attr = _services.FirstOrDefault(s => s.Name.Equals(serviceName));
+                    IReadOnlyList<GattCharacteristic> characteristics = new List<GattCharacteristic>();
 
-                    string charName = string.Empty;
-                    var parts = param.Split('/');
-                    // Do we have parameter is in "service/characteristic" format?
-                    if (parts.Length == 2)
+                    try
                     {
-                        string serviceName = Utilities.GetIdByNameOrNumber(_services, parts[0]);
-                        charName = parts[1];
-
-                        // If device is found, connect to device and enumerate all services
-                        if (!string.IsNullOrEmpty(serviceName))
+                        // Ensure we have access to the device.
+                        var accessStatus = await attr.service.RequestAccessAsync();
+                        if (accessStatus == DeviceAccessStatus.Allowed)
                         {
-                            var attr = _services.FirstOrDefault(s => s.Name.Equals(serviceName));
-                            IReadOnlyList<GattCharacteristic> characteristics = new List<GattCharacteristic>();
-
-                            try
-                            {
-                                // Ensure we have access to the device.
-                                var accessStatus = await attr.service.RequestAccessAsync();
-                                if (accessStatus == DeviceAccessStatus.Allowed)
-                                {
-                                    var result = await attr.service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
-                                    if (result.Status == GattCommunicationStatus.Success)
-                                        characteristics = result.Characteristics;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Restricted service. Can't read characteristics: {ex.Message}");
-                                task_result = ERROR_CODE.READ_FAIL;
-                            }
-
-                            foreach (var c in characteristics)
-                                chars.Add(new BluetoothLEAttributeDisplay(c));
-                        }
-                    }
-                    else if (parts.Length == 1)
-                    {
-                        if (_selectedService == null)
-                        {
-                            if (!Console.IsOutputRedirected)
-                                Console.WriteLine("No service is selected.");
-                            task_result = ERROR_CODE.NO_SELECTED_SERVICE;
-                        }
-                        chars = new List<BluetoothLEAttributeDisplay>(_characteristics);
-                        charName = parts[0];
-                    }
-
-                    // Read characteristic
-                    if (chars.Count > 0 && !string.IsNullOrEmpty(charName))
-                    {
-                        string useName = Utilities.GetIdByNameOrNumber(chars, charName);
-                        var attr = chars.FirstOrDefault(c => c.Name.Equals(useName));
-                        if (attr != null && attr.characteristic != null)
-                        {
-                            // Read characteristic value
-                            GattReadResult result = await attr.characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
-
+                            var result = await attr.service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
                             if (result.Status == GattCommunicationStatus.Success)
-                            {
-                                Console.WriteLine(Utilities.FormatValue(result.Value, _dataFormat));
-                                _resultCharacteristic = Utilities.FormatValue(result.Value, _dataFormat);
-                                task_result = ERROR_CODE.NONE;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Read failed: {result.Status}");
-                                task_result = ERROR_CODE.READ_FAIL;
-                            }
+                                characteristics = result.Characteristics;
                         }
-                        else
-                        {
-                            Console.WriteLine($"Invalid characteristic {charName}");
-                            task_result = ERROR_CODE.READ_INVALID_CHARACTERISTIC;
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Restricted service. Can't read characteristics: {ex.Message}");
+                        task_result = ERROR_CODE.READ_FAIL;
+                    }
+
+                    foreach (var c in characteristics)
+                        chars.Add(new BluetoothLEAttributeDisplay(c));
+                }
+            }
+            else if (parts.Length == 1)
+            {
+                if (_selectedService == null)
+                {
+                    Console.WriteLine("No service is selected.");
+                    task_result = ERROR_CODE.NO_SELECTED_SERVICE;
+                }
+                chars = new List<BluetoothLEAttributeDisplay>(_characteristics);
+                charName = parts[0];
+            }
+
+            // Read characteristic
+            if (chars.Count == 0)
+            {
+                Console.WriteLine("No Characteristics");
+                task_result = ERROR_CODE.READ_NOTHING_TO_READ;
+                return task_result;
+            }
+            if (chars.Count > 0 && !string.IsNullOrEmpty(charName))
+            {
+                string useName = Utilities.GetIdByNameOrNumber(chars, charName);
+                var attr = chars.FirstOrDefault(c => c.Name.Equals(useName));
+                if (attr != null && attr.characteristic != null)
+                {
+                    // Read characteristic value
+                    GattReadResult result = await attr.characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+
+                    if (result.Status == GattCommunicationStatus.Success)
+                    {
+                        Console.WriteLine(Utilities.FormatValue(result.Value, _dataFormat));
+                        _resultCharacteristic = Utilities.FormatValue(result.Value, _dataFormat);
+                        task_result = ERROR_CODE.NONE;
                     }
                     else
                     {
-                        Console.WriteLine("Nothing to read, please specify characteristic name or #.");
-                        task_result = ERROR_CODE.READ_NOTHING_TO_READ;
+                        Console.WriteLine($"Read failed: {result.Status}");
+                        task_result = ERROR_CODE.READ_FAIL;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Nothing to read, please specify characteristic name or #.");
-                    task_result = ERROR_CODE.READ_NOTHING_TO_READ;
+                    Console.WriteLine($"Invalid characteristic {charName}");
+                    task_result = ERROR_CODE.READ_INVALID_CHARACTERISTIC;
                 }
-            }
-            else
-            {
-                Console.WriteLine("No BLE device connected.");
-                task_result = ERROR_CODE.NO_BLE_CONNECTED;
             }
             return task_result;
         }
@@ -322,7 +335,7 @@ namespace ble.test
             }
             else
             {
-                task_result = ERROR_CODE.SERVICE_NO_BLE_CONNECTED;
+                task_result = ERROR_CODE.BLE_NO_CONNECTED;
             }
 
             return task_result;
@@ -367,7 +380,7 @@ namespace ble.test
             }
             catch
             {
-                task_result = ERROR_CODE.OPENDEVICE_UNREACHABLE;
+                task_result = ERROR_CODE.UNKNOWN_ERROR;
             }
             return task_result;
         }
@@ -380,7 +393,7 @@ namespace ble.test
             return result;
         }
 
-        public  List<string> GetServiceList()
+        public List<string> GetServiceList()
         {
             List<string> result = new List<string>();
 
@@ -430,7 +443,7 @@ namespace ble.test
             }
 
             // List all characteristics
-            if (_characteristics.Count == null)
+            if (_characteristics.Count == 0)
             {
                 result.Add($"Selected {_selectedService.Name}.charateristics.Count is 0");
                 return result;
@@ -445,12 +458,139 @@ namespace ble.test
             return result;
         }
 
-        private void CustomOnPairingRequested(
+        private ERROR_CODE ConvertErrorCodePairing(DevicePairingResultStatus status)
+        {
+            var error_status = ERROR_CODE.UNKNOWN_ERROR;
+            switch (status)
+            {
+                case DevicePairingResultStatus.Paired:
+                    error_status = ERROR_CODE.PAIRING_SUCCESS;
+                    break;
+
+                case DevicePairingResultStatus.NotReadyToPair:
+                    error_status = ERROR_CODE.PAIRING_NOT_READY_TO_PAIR;
+                    break;
+
+                case DevicePairingResultStatus.NotPaired:
+                    error_status = ERROR_CODE.PAIRING_NOT_PAIRED;
+                    break;
+
+                case DevicePairingResultStatus.AlreadyPaired:
+                    error_status = ERROR_CODE.PAIRING_ALREADY_PAIRED;
+                    break;
+
+
+                case DevicePairingResultStatus.ConnectionRejected:
+                    error_status = ERROR_CODE.PAIRING_CONNECTION_REJECTED;
+                    break;
+
+
+                case DevicePairingResultStatus.TooManyConnections:
+                    error_status = ERROR_CODE.PAIRING_TOO_MANY_CONNECTIONS;
+                    break;
+
+
+                case DevicePairingResultStatus.HardwareFailure:
+                    error_status = ERROR_CODE.PAIRING_HARDWARE_FAILURE;
+                    break;
+
+
+                case DevicePairingResultStatus.AuthenticationTimeout:
+                    error_status = ERROR_CODE.PAIRING_AUTHENTICATION_TIMEOUT;
+                    break;
+
+
+                case DevicePairingResultStatus.AuthenticationNotAllowed:
+                    error_status = ERROR_CODE.PAIRING_AUTHENTICATIION_NOT_ALLOWED;
+                    break;
+
+
+                case DevicePairingResultStatus.AuthenticationFailure:
+                    error_status = ERROR_CODE.PAIRING_AUTHENTICATION_FAILURE;
+                    break;
+
+
+                case DevicePairingResultStatus.NoSupportedProfiles:
+                    error_status = ERROR_CODE.PAIRING_NOT_SUPPORTED_PROFILES;
+                    break;
+
+
+                case DevicePairingResultStatus.ProtectionLevelCouldNotBeMet:
+                    error_status = ERROR_CODE.PAIRING_PROTEDTION_LEVEL_COULDNOT_BE_MET;
+                    break;
+
+
+                case DevicePairingResultStatus.AccessDenied:
+                    error_status = ERROR_CODE.PAIRING_ACCESS_DENIED;
+                    break;
+
+
+                case DevicePairingResultStatus.InvalidCeremonyData:
+                    error_status = ERROR_CODE.PAIRING_INVALID_CEREMONYDATA;
+                    break;
+
+
+                case DevicePairingResultStatus.PairingCanceled:
+                    error_status = ERROR_CODE.PAIRING_PAIRING_CANCELED;
+                    break;
+
+
+                case DevicePairingResultStatus.OperationAlreadyInProgress:
+                    error_status = ERROR_CODE.PAIRING_OPERATION_ALREADY_INPROGRESS;
+                    break;
+
+
+                case DevicePairingResultStatus.RequiredHandlerNotRegistered:
+                    error_status = ERROR_CODE.PAIRING_REQUIRED_HANDLER_NOT_REGISTERED;
+                    break;
+
+
+                case DevicePairingResultStatus.RejectedByHandler:
+                    error_status = ERROR_CODE.PAIRING_REJECTED_BY_HANDLER;
+                    break;
+
+
+                case DevicePairingResultStatus.RemoteDeviceHasAssociation:
+                    error_status = ERROR_CODE.PAIRING_REMOTE_DEVICE_HAS_ASSOCIATION;
+                    break;
+
+
+                case DevicePairingResultStatus.Failed:
+                    error_status = ERROR_CODE.PAIRING_FAILED;
+                    break;
+            }
+            return error_status;
+        }
+        private ERROR_CODE ConvertErrorCodeUnPairing(DeviceUnpairingResultStatus status)
+        {
+            var error_status = ERROR_CODE.UNKNOWN_ERROR;
+
+            switch (status)
+            {
+                case DeviceUnpairingResultStatus.AlreadyUnpaired:
+                    error_status = ERROR_CODE.ALREADY_UNPAIRED;
+                    break;
+
+                case DeviceUnpairingResultStatus.OperationAlreadyInProgress:
+                    error_status = ERROR_CODE.UNPAIRE_ALREADY_INPROGRESS;
+                    break;
+                case DeviceUnpairingResultStatus.Failed:
+                    error_status = ERROR_CODE.UNPAIRE_FAILED;
+                    break;
+
+                case DeviceUnpairingResultStatus.Unpaired:
+                default:
+                    error_status = ERROR_CODE.UNPAIRED_SUCCESS;
+                    break;
+            }
+            return error_status;
+        }
+    private void CustomOnPairingRequested(
                     DeviceInformationCustomPairing sender,
                     DevicePairingRequestedEventArgs args)
         {
             Console.WriteLine("Done Pairing");
-            args.Accept();
+            args.Accept("0");
         }
 
         public async Task<ERROR_CODE> Pairing(string deviceName)
@@ -467,51 +607,67 @@ namespace ble.test
             _selectedService = null;
             _services.Clear();
 
-            try
+            //try
             {
                 _selectedDevice = await BluetoothLEDevice.FromIdAsync(foundId).AsTask().TimeoutAfter(_timeout);
                 //string_result= $"Connecting to {_selectedDevice.Name}.";
 
-                if (!_selectedDevice.DeviceInformation.Pairing.IsPaired)
+                
+                if (_selectedDevice.DeviceInformation.Pairing.IsPaired) {
+                    var result1 = await _selectedDevice.DeviceInformation.Pairing.UnpairAsync();
+                    task_result = ConvertErrorCodeUnPairing(result1.Status);
+                    if (task_result != ERROR_CODE.UNPAIRED_SUCCESS) {
+                        Console.WriteLine($"{result1.Status}");
+                        return task_result;
+                    }
+                }
+
+                if (_selectedDevice.ConnectionStatus == BluetoothConnectionStatus.Disconnected)
                 {
                     Console.WriteLine($"{_selectedDevice.Name} Try Pairing");
                     _selectedDevice.DeviceInformation.Pairing.Custom.PairingRequested += CustomOnPairingRequested;
 
+                    //var result1 = await _selectedDevice.DeviceInformation.Pairing.Custom.PairAsync(
+                    //      DevicePairingKinds.ConfirmOnly, DevicePairingProtectionLevel.None);
                     var result1 = await _selectedDevice.DeviceInformation.Pairing.Custom.PairAsync(
-                          DevicePairingKinds.ConfirmOnly, DevicePairingProtectionLevel.None);
+                          DevicePairingKinds.ConfirmOnly);
                     _selectedDevice.DeviceInformation.Pairing.Custom.PairingRequested -= CustomOnPairingRequested;
+                    task_result =  ConvertErrorCodePairing(result1.Status);
 
                     Console.WriteLine($"{result1.Status}");
-
-                    var result = await _selectedDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
-                    if (result.Status == GattCommunicationStatus.Success)
+                    if (task_result != ERROR_CODE.PAIRING_SUCCESS)
                     {
-                        //    listStatus.Items.Adde($"Found {result.Services.Count} services:");
-
-                        for (int i = 0; i < result.Services.Count; i++)
-                        {
-                            var serviceToDisplay = new BluetoothLEAttributeDisplay(result.Services[i]);
-                            _services.Add(serviceToDisplay);
-                            //        listStatus.Items.Add($"#{i:00}: {_services[i].Name}");
-                        }
+                        return task_result;
                     }
-                    else
-                    {
-                        //    listStatus.Items.Add($"Device {deviceName} is unreachable.");
-                        task_result = ERROR_CODE.OPENDEVICE_UNREACHABLE;
-                    }
-                    task_result = ERROR_CODE.NONE;
                 }
-                else {
-                    Console.WriteLine($"{_selectedDevice.Name} already paired");
-                    task_result = ERROR_CODE.PAIRED_BLE;
+                else
+                {
+                    task_result = ERROR_CODE.PAIRING_ALREADY_CONNECTED;
+                    return task_result;
                 }
 
+                var result = await _selectedDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
+                if (result.Status == GattCommunicationStatus.Success)
+                {
+                    //    listStatus.Items.Adde($"Found {result.Services.Count} services:");
+
+                    for (int i = 0; i < result.Services.Count; i++)
+                    {
+                        var serviceToDisplay = new BluetoothLEAttributeDisplay(result.Services[i]);
+                        _services.Add(serviceToDisplay);
+                        //        listStatus.Items.Add($"#{i:00}: {_services[i].Name}");
+                    }
+                }
+                else
+                {
+                    //    listStatus.Items.Add($"Device {deviceName} is unreachable.");
+                    task_result = ERROR_CODE.OPENDEVICE_UNREACHABLE;
+                }
             }
-            catch
-            {
-                task_result = ERROR_CODE.OPENDEVICE_UNREACHABLE;
-            }
+            //catch
+            //{
+            //    task_result = ERROR_CODE.UNKNOWN_ERROR;
+            //}
             return task_result;
         }
 
@@ -535,18 +691,19 @@ namespace ble.test
                     task_result = ERROR_CODE.NO_SELECTED_SERVICE;
                     return task_result;
                 }
-                if (_selectedDevice.DeviceInformation.Pairing.IsPaired)
+                if (_selectedDevice.ConnectionStatus == BluetoothConnectionStatus.Connected)
+                //if (_selectedDevice.DeviceInformation.Pairing.IsPaired)
                 {
                     Console.WriteLine($"{_selectedDevice.Name} Try Pairing");
                     var result1 = await _selectedDevice.DeviceInformation.Pairing.UnpairAsync();
-
+                    task_result = ConvertErrorCodeUnPairing(result1.Status);
                     Console.WriteLine($"{result1.Status}");
-
-                    task_result = ERROR_CODE.NONE;
+                    
                 }
-                else {
+                else
+                {
                     Console.WriteLine($"{_selectedDevice.Name} wasn't paired");
-                    task_result = ERROR_CODE.NO_PAIRED_BLE;
+                    task_result = ERROR_CODE.UNPAIR_FAILED_DISCONNECTED;
                 }
 
             }

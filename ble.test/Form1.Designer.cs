@@ -59,6 +59,13 @@ namespace ble.test
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button23 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.button25 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -193,7 +200,7 @@ namespace ble.test
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1221, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1465, 24);
             this.menuStrip1.TabIndex = 13;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -203,12 +210,12 @@ namespace ble.test
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(147, 25);
             this.textBox1.TabIndex = 15;
-            this.textBox1.Text = "VC Z1 15A0";
+            this.textBox1.Text = "VC Z1 5B7A";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(991, 467);
+            this.button9.Location = new System.Drawing.Point(991, 369);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(147, 40);
             this.button9.TabIndex = 16;
@@ -218,7 +225,7 @@ namespace ble.test
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(991, 267);
+            this.button10.Location = new System.Drawing.Point(991, 169);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(147, 40);
             this.button10.TabIndex = 17;
@@ -228,7 +235,7 @@ namespace ble.test
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(991, 313);
+            this.button11.Location = new System.Drawing.Point(991, 215);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(147, 40);
             this.button11.TabIndex = 18;
@@ -238,7 +245,7 @@ namespace ble.test
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(991, 359);
+            this.button12.Location = new System.Drawing.Point(991, 261);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(147, 40);
             this.button12.TabIndex = 19;
@@ -248,7 +255,7 @@ namespace ble.test
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(991, 405);
+            this.button13.Location = new System.Drawing.Point(991, 307);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(147, 40);
             this.button13.TabIndex = 20;
@@ -258,16 +265,17 @@ namespace ble.test
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(991, 527);
+            this.button14.Location = new System.Drawing.Point(991, 429);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(147, 40);
             this.button14.TabIndex = 21;
             this.button14.Text = "Dispose";
             this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(991, 636);
+            this.button15.Location = new System.Drawing.Point(991, 538);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(147, 40);
             this.button15.TabIndex = 22;
@@ -277,7 +285,7 @@ namespace ble.test
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(991, 605);
+            this.textBox2.Location = new System.Drawing.Point(991, 507);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(90, 25);
             this.textBox2.TabIndex = 23;
@@ -288,7 +296,7 @@ namespace ble.test
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1087, 608);
+            this.label1.Location = new System.Drawing.Point(1087, 510);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 15);
             this.label1.TabIndex = 24;
@@ -306,7 +314,7 @@ namespace ble.test
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(991, 165);
+            this.button16.Location = new System.Drawing.Point(1144, 63);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(147, 40);
             this.button16.TabIndex = 27;
@@ -316,17 +324,17 @@ namespace ble.test
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(991, 134);
+            this.textBox3.Location = new System.Drawing.Point(1144, 32);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(147, 25);
             this.textBox3.TabIndex = 26;
-            this.textBox3.Text = "VC Z1 5B7A";
+            this.textBox3.Text = "VC Z1 9F82";
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(991, 211);
+            this.button17.Location = new System.Drawing.Point(1317, 63);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(68, 40);
+            this.button17.Size = new System.Drawing.Size(73, 40);
             this.button17.TabIndex = 28;
             this.button17.Text = "Pairing";
             this.button17.UseVisualStyleBackColor = true;
@@ -334,7 +342,7 @@ namespace ble.test
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(1065, 211);
+            this.button18.Location = new System.Drawing.Point(1317, 103);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(73, 40);
             this.button18.TabIndex = 29;
@@ -342,11 +350,87 @@ namespace ble.test
             this.button18.UseVisualStyleBackColor = true;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(1317, 149);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(73, 40);
+            this.button19.TabIndex = 30;
+            this.button19.Text = "Run Pair/Unpair";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(1144, 429);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(147, 40);
+            this.button20.TabIndex = 36;
+            this.button20.Text = "Dispose";
+            this.button20.UseVisualStyleBackColor = true;
+            // 
+            // button21
+            // 
+            this.button21.Location = new System.Drawing.Point(1144, 307);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(147, 40);
+            this.button21.TabIndex = 35;
+            this.button21.Text = "FAN Speed(RPM)";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(1144, 261);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(147, 40);
+            this.button22.TabIndex = 34;
+            this.button22.Text = "TVOC";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(1144, 215);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(147, 40);
+            this.button23.TabIndex = 33;
+            this.button23.Text = "습도";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
+            // button24
+            // 
+            this.button24.Location = new System.Drawing.Point(1144, 169);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(147, 40);
+            this.button24.TabIndex = 32;
+            this.button24.Text = "온도";
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
+            // button25
+            // 
+            this.button25.Location = new System.Drawing.Point(1144, 369);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(147, 40);
+            this.button25.TabIndex = 31;
+            this.button25.Text = "Battery Level";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1221, 828);
+            this.ClientSize = new System.Drawing.Size(1465, 828);
+            this.Controls.Add(this.button20);
+            this.Controls.Add(this.button21);
+            this.Controls.Add(this.button22);
+            this.Controls.Add(this.button23);
+            this.Controls.Add(this.button24);
+            this.Controls.Add(this.button25);
+            this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button16);
@@ -415,6 +499,13 @@ namespace ble.test
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button25;
     }
 }
 
