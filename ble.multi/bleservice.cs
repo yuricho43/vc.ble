@@ -16,13 +16,10 @@ namespace ble.multi
     public class Bleservice
     {
         // "Magic" string for all BLE devices
-        //string _aqsAllBLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-        //string[] _requestedBLEProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected", "System.Devices.Aep.Bluetooth.Le.IsConnectable", };
-
         string[] _requestedBLEProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected", "System.Devices.Aep.Bluetooth.Le.IsConnectable" };
 
         // BT_Code: Example showing paired and non-paired in a single query.
-        string _aqsAllBLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
+        //string _aqsAllBLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
 
         ObservableCollection<BluetoothLEDeviceDisplay> KnownDevices = new ObservableCollection<BluetoothLEDeviceDisplay>();
         List<DeviceInformation> _deviceList = new List<DeviceInformation>();
@@ -32,7 +29,6 @@ namespace ble.multi
         BluetoothLEAttributeDisplay _selectedService = null;
 
         List<BluetoothLEAttributeDisplay> _characteristics = new List<BluetoothLEAttributeDisplay>();
-        BluetoothLEAttributeDisplay _selectedCharacteristic = null;
         string _resultCharacteristic = null;
 
         // Only one registered characteristic at a time.
@@ -40,27 +36,6 @@ namespace ble.multi
 
         // Current data format
         DataFormat _dataFormat = DataFormat.Dec;
-
-        string _versionInfo;
-
-        // Variables for "foreach" loop implementation
-        List<string> _forEachCommands = new List<string>();
-        List<string> _forEachDeviceNames = new List<string>();
-        int _forEachCmdCounter = 0;
-        int _forEachDeviceCounter = 0;
-        bool _forEachCollection = false;
-        bool _forEachExecution = false;
-        string _forEachDeviceMask = "";
-        int _inIfBlock = 0;
-        bool _failedConditional = false;
-        bool _closingIfBlock = false;
-        int _exitCode = 0;
-        ManualResetEvent _notifyCompleteEvent = null;
-        ManualResetEvent _delayEvent = null;
-        bool _primed = false;
-
-        string ble_device = "VC Z1 15A0";
-
         TimeSpan _timeout = TimeSpan.FromSeconds(3);
        
         public Bleservice()
@@ -351,7 +326,6 @@ namespace ble.multi
             var devs = _deviceList.OrderBy(d => d.Name).Where(d => !string.IsNullOrEmpty(d.Name)).ToList();
             string foundId = Utilities.GetIdByNameOrNumber(devs, deviceName);
 
-            _selectedCharacteristic = null;
             _selectedService = null;
             _services.Clear();
 
@@ -603,7 +577,6 @@ namespace ble.multi
             var devs = _deviceList.OrderBy(d => d.Name).Where(d => !string.IsNullOrEmpty(d.Name)).ToList();
             string foundId = Utilities.GetIdByNameOrNumber(devs, deviceName);
 
-            _selectedCharacteristic = null;
             _selectedService = null;
             _services.Clear();
 
@@ -711,7 +684,7 @@ namespace ble.multi
             {
                 task_result = ERROR_CODE.OPENDEVICE_UNREACHABLE;
             }
-            _selectedCharacteristic = null;
+
             _selectedService = null;
             _services.Clear();
 
