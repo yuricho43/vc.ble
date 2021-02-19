@@ -70,9 +70,10 @@ namespace ble.test
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(428, 30);
+            this.button1.Location = new System.Drawing.Point(374, 24);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 73);
+            this.button1.Size = new System.Drawing.Size(97, 58);
             this.button1.TabIndex = 0;
             this.button1.Text = "Scan";
             this.button1.UseVisualStyleBackColor = true;
@@ -80,9 +81,10 @@ namespace ble.test
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(428, 109);
+            this.button2.Location = new System.Drawing.Point(374, 87);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 71);
+            this.button2.Size = new System.Drawing.Size(97, 57);
             this.button2.TabIndex = 1;
             this.button2.Text = "List Devices";
             this.button2.UseVisualStyleBackColor = true;
@@ -100,17 +102,19 @@ namespace ble.test
             // 
             this.listDevice.FormattingEnabled = true;
             this.listDevice.HorizontalScrollbar = true;
-            this.listDevice.ItemHeight = 15;
-            this.listDevice.Location = new System.Drawing.Point(30, 30);
+            this.listDevice.ItemHeight = 12;
+            this.listDevice.Location = new System.Drawing.Point(26, 24);
+            this.listDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listDevice.Name = "listDevice";
-            this.listDevice.Size = new System.Drawing.Size(373, 334);
+            this.listDevice.Size = new System.Drawing.Size(327, 268);
             this.listDevice.TabIndex = 2;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(428, 202);
+            this.button3.Location = new System.Drawing.Point(374, 162);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(111, 71);
+            this.button3.Size = new System.Drawing.Size(97, 57);
             this.button3.TabIndex = 3;
             this.button3.Text = "Connect";
             this.button3.UseVisualStyleBackColor = true;
@@ -118,9 +122,10 @@ namespace ble.test
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(428, 769);
+            this.button4.Location = new System.Drawing.Point(374, 615);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(111, 41);
+            this.button4.Size = new System.Drawing.Size(97, 33);
             this.button4.TabIndex = 4;
             this.button4.Text = "Close";
             this.button4.UseVisualStyleBackColor = true;
@@ -130,18 +135,20 @@ namespace ble.test
             // 
             this.listStatus.FormattingEnabled = true;
             this.listStatus.HorizontalScrollbar = true;
-            this.listStatus.ItemHeight = 15;
-            this.listStatus.Location = new System.Drawing.Point(558, 30);
+            this.listStatus.ItemHeight = 12;
+            this.listStatus.Location = new System.Drawing.Point(488, 24);
+            this.listStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listStatus.Name = "listStatus";
             this.listStatus.ScrollAlwaysVisible = true;
-            this.listStatus.Size = new System.Drawing.Size(391, 784);
+            this.listStatus.Size = new System.Drawing.Size(343, 628);
             this.listStatus.TabIndex = 5;
             // 
             // buttonShow
             // 
-            this.buttonShow.Location = new System.Drawing.Point(428, 405);
+            this.buttonShow.Location = new System.Drawing.Point(374, 324);
+            this.buttonShow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonShow.Name = "buttonShow";
-            this.buttonShow.Size = new System.Drawing.Size(111, 63);
+            this.buttonShow.Size = new System.Drawing.Size(97, 50);
             this.buttonShow.TabIndex = 6;
             this.buttonShow.Text = "Show Service";
             this.buttonShow.UseVisualStyleBackColor = true;
@@ -149,9 +156,10 @@ namespace ble.test
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(428, 485);
+            this.button5.Location = new System.Drawing.Point(374, 388);
+            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(111, 65);
+            this.button5.Size = new System.Drawing.Size(97, 52);
             this.button5.TabIndex = 8;
             this.button5.Text = "Set Service";
             this.button5.UseVisualStyleBackColor = true;
@@ -160,26 +168,29 @@ namespace ble.test
             // listService
             // 
             this.listService.FormattingEnabled = true;
-            this.listService.ItemHeight = 15;
-            this.listService.Location = new System.Drawing.Point(30, 388);
+            this.listService.ItemHeight = 12;
+            this.listService.Location = new System.Drawing.Point(26, 310);
+            this.listService.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listService.Name = "listService";
-            this.listService.Size = new System.Drawing.Size(373, 244);
+            this.listService.Size = new System.Drawing.Size(327, 196);
             this.listService.TabIndex = 9;
             // 
             // listCharacteristic
             // 
             this.listCharacteristic.FormattingEnabled = true;
-            this.listCharacteristic.ItemHeight = 15;
-            this.listCharacteristic.Location = new System.Drawing.Point(30, 653);
+            this.listCharacteristic.ItemHeight = 12;
+            this.listCharacteristic.Location = new System.Drawing.Point(26, 522);
+            this.listCharacteristic.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listCharacteristic.Name = "listCharacteristic";
-            this.listCharacteristic.Size = new System.Drawing.Size(373, 154);
+            this.listCharacteristic.Size = new System.Drawing.Size(327, 124);
             this.listCharacteristic.TabIndex = 10;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(428, 653);
+            this.button6.Location = new System.Drawing.Point(374, 522);
+            this.button6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(111, 62);
+            this.button6.Size = new System.Drawing.Size(97, 50);
             this.button6.TabIndex = 11;
             this.button6.Text = "Show Characteristic";
             this.button6.UseVisualStyleBackColor = true;
@@ -187,9 +198,10 @@ namespace ble.test
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(428, 721);
+            this.button7.Location = new System.Drawing.Point(374, 577);
+            this.button7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(111, 42);
+            this.button7.Size = new System.Drawing.Size(97, 34);
             this.button7.TabIndex = 12;
             this.button7.Text = "Read Value";
             this.button7.UseVisualStyleBackColor = true;
@@ -200,24 +212,27 @@ namespace ble.test
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1465, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1181, 24);
             this.menuStrip1.TabIndex = 13;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(991, 32);
+            this.textBox1.Location = new System.Drawing.Point(867, 26);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(147, 25);
+            this.textBox1.Size = new System.Drawing.Size(129, 21);
             this.textBox1.TabIndex = 15;
             this.textBox1.Text = "VC Z1 5B7A";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(991, 369);
+            this.button9.Location = new System.Drawing.Point(867, 295);
+            this.button9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(147, 40);
+            this.button9.Size = new System.Drawing.Size(129, 32);
             this.button9.TabIndex = 16;
             this.button9.Text = "Battery Level";
             this.button9.UseVisualStyleBackColor = true;
@@ -225,9 +240,10 @@ namespace ble.test
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(991, 169);
+            this.button10.Location = new System.Drawing.Point(867, 135);
+            this.button10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(147, 40);
+            this.button10.Size = new System.Drawing.Size(129, 32);
             this.button10.TabIndex = 17;
             this.button10.Text = "온도";
             this.button10.UseVisualStyleBackColor = true;
@@ -235,9 +251,10 @@ namespace ble.test
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(991, 215);
+            this.button11.Location = new System.Drawing.Point(867, 172);
+            this.button11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(147, 40);
+            this.button11.Size = new System.Drawing.Size(129, 32);
             this.button11.TabIndex = 18;
             this.button11.Text = "습도";
             this.button11.UseVisualStyleBackColor = true;
@@ -245,9 +262,10 @@ namespace ble.test
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(991, 261);
+            this.button12.Location = new System.Drawing.Point(867, 209);
+            this.button12.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(147, 40);
+            this.button12.Size = new System.Drawing.Size(129, 32);
             this.button12.TabIndex = 19;
             this.button12.Text = "TVOC";
             this.button12.UseVisualStyleBackColor = true;
@@ -255,9 +273,10 @@ namespace ble.test
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(991, 307);
+            this.button13.Location = new System.Drawing.Point(867, 246);
+            this.button13.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(147, 40);
+            this.button13.Size = new System.Drawing.Size(129, 32);
             this.button13.TabIndex = 20;
             this.button13.Text = "FAN Speed(RPM)";
             this.button13.UseVisualStyleBackColor = true;
@@ -265,9 +284,10 @@ namespace ble.test
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(991, 429);
+            this.button14.Location = new System.Drawing.Point(867, 343);
+            this.button14.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(147, 40);
+            this.button14.Size = new System.Drawing.Size(129, 32);
             this.button14.TabIndex = 21;
             this.button14.Text = "Dispose";
             this.button14.UseVisualStyleBackColor = true;
@@ -275,9 +295,10 @@ namespace ble.test
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(991, 538);
+            this.button15.Location = new System.Drawing.Point(878, 454);
+            this.button15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(147, 40);
+            this.button15.Size = new System.Drawing.Size(129, 32);
             this.button15.TabIndex = 22;
             this.button15.Text = "Multiple Test";
             this.button15.UseVisualStyleBackColor = true;
@@ -285,9 +306,10 @@ namespace ble.test
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(991, 507);
+            this.textBox2.Location = new System.Drawing.Point(878, 430);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(90, 25);
+            this.textBox2.Size = new System.Drawing.Size(79, 21);
             this.textBox2.TabIndex = 23;
             this.textBox2.Text = "30";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -296,17 +318,18 @@ namespace ble.test
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1087, 510);
+            this.label1.Location = new System.Drawing.Point(962, 432);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 15);
+            this.label1.Size = new System.Drawing.Size(27, 12);
             this.label1.TabIndex = 24;
             this.label1.Text = "Sec";
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(991, 63);
+            this.button8.Location = new System.Drawing.Point(867, 50);
+            this.button8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(147, 40);
+            this.button8.Size = new System.Drawing.Size(129, 32);
             this.button8.TabIndex = 25;
             this.button8.Text = "Scan";
             this.button8.UseVisualStyleBackColor = true;
@@ -314,9 +337,10 @@ namespace ble.test
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(1144, 63);
+            this.button16.Location = new System.Drawing.Point(1001, 50);
+            this.button16.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(147, 40);
+            this.button16.Size = new System.Drawing.Size(129, 32);
             this.button16.TabIndex = 27;
             this.button16.Text = "Scan";
             this.button16.UseVisualStyleBackColor = true;
@@ -324,17 +348,19 @@ namespace ble.test
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(1144, 32);
+            this.textBox3.Location = new System.Drawing.Point(1001, 26);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(147, 25);
+            this.textBox3.Size = new System.Drawing.Size(129, 21);
             this.textBox3.TabIndex = 26;
             this.textBox3.Text = "VC Z1 9F82";
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(1317, 63);
+            this.button17.Location = new System.Drawing.Point(1044, 435);
+            this.button17.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(73, 40);
+            this.button17.Size = new System.Drawing.Size(64, 32);
             this.button17.TabIndex = 28;
             this.button17.Text = "Pairing";
             this.button17.UseVisualStyleBackColor = true;
@@ -342,9 +368,10 @@ namespace ble.test
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(1317, 103);
+            this.button18.Location = new System.Drawing.Point(1044, 467);
+            this.button18.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(73, 40);
+            this.button18.Size = new System.Drawing.Size(64, 32);
             this.button18.TabIndex = 29;
             this.button18.Text = "UnPair";
             this.button18.UseVisualStyleBackColor = true;
@@ -352,9 +379,10 @@ namespace ble.test
             // 
             // button19
             // 
-            this.button19.Location = new System.Drawing.Point(1317, 149);
+            this.button19.Location = new System.Drawing.Point(1044, 504);
+            this.button19.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(73, 40);
+            this.button19.Size = new System.Drawing.Size(64, 32);
             this.button19.TabIndex = 30;
             this.button19.Text = "Run Pair/Unpair";
             this.button19.UseVisualStyleBackColor = true;
@@ -362,18 +390,20 @@ namespace ble.test
             // 
             // button20
             // 
-            this.button20.Location = new System.Drawing.Point(1144, 429);
+            this.button20.Location = new System.Drawing.Point(1001, 343);
+            this.button20.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(147, 40);
+            this.button20.Size = new System.Drawing.Size(129, 32);
             this.button20.TabIndex = 36;
             this.button20.Text = "Dispose";
             this.button20.UseVisualStyleBackColor = true;
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(1144, 307);
+            this.button21.Location = new System.Drawing.Point(1001, 246);
+            this.button21.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(147, 40);
+            this.button21.Size = new System.Drawing.Size(129, 32);
             this.button21.TabIndex = 35;
             this.button21.Text = "FAN Speed(RPM)";
             this.button21.UseVisualStyleBackColor = true;
@@ -381,9 +411,10 @@ namespace ble.test
             // 
             // button22
             // 
-            this.button22.Location = new System.Drawing.Point(1144, 261);
+            this.button22.Location = new System.Drawing.Point(1001, 209);
+            this.button22.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(147, 40);
+            this.button22.Size = new System.Drawing.Size(129, 32);
             this.button22.TabIndex = 34;
             this.button22.Text = "TVOC";
             this.button22.UseVisualStyleBackColor = true;
@@ -391,9 +422,10 @@ namespace ble.test
             // 
             // button23
             // 
-            this.button23.Location = new System.Drawing.Point(1144, 215);
+            this.button23.Location = new System.Drawing.Point(1001, 172);
+            this.button23.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(147, 40);
+            this.button23.Size = new System.Drawing.Size(129, 32);
             this.button23.TabIndex = 33;
             this.button23.Text = "습도";
             this.button23.UseVisualStyleBackColor = true;
@@ -401,9 +433,10 @@ namespace ble.test
             // 
             // button24
             // 
-            this.button24.Location = new System.Drawing.Point(1144, 169);
+            this.button24.Location = new System.Drawing.Point(1001, 135);
+            this.button24.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(147, 40);
+            this.button24.Size = new System.Drawing.Size(129, 32);
             this.button24.TabIndex = 32;
             this.button24.Text = "온도";
             this.button24.UseVisualStyleBackColor = true;
@@ -411,9 +444,10 @@ namespace ble.test
             // 
             // button25
             // 
-            this.button25.Location = new System.Drawing.Point(1144, 369);
+            this.button25.Location = new System.Drawing.Point(1001, 295);
+            this.button25.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(147, 40);
+            this.button25.Size = new System.Drawing.Size(129, 32);
             this.button25.TabIndex = 31;
             this.button25.Text = "Battery Level";
             this.button25.UseVisualStyleBackColor = true;
@@ -421,9 +455,9 @@ namespace ble.test
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1465, 828);
+            this.ClientSize = new System.Drawing.Size(1181, 662);
             this.Controls.Add(this.button20);
             this.Controls.Add(this.button21);
             this.Controls.Add(this.button22);
@@ -460,6 +494,7 @@ namespace ble.test
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

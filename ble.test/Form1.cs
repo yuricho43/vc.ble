@@ -66,7 +66,6 @@ namespace ble.test
                     break;
 
                 case TaskName.READ_CHARACTERISTIC:
-                    string resultString;
                     result = await ble.ReadCharacteristic(arg1, arg2);
                     listStatus.Items.Add($"ErrorCode: {result}");
                     if (result == ERROR_CODE.NONE)
@@ -156,9 +155,9 @@ namespace ble.test
             listDevice.Items.Clear();
             listStatus.Items.Add("Start Scan");
 
-            
-            var result = ble.StartScan(parameters, (d) => listStatus.Items.Add(d) );
 
+            //var result = ble.StartScan(parameters, (d) => listStatus.Items.Add(d) );
+            var result = ble.StartScan(parameters, (d) => {});
             listStatus.Items.Add(result.ToString());
             if (result.Equals(ERROR_CODE.BLE_FOUND_DEVICE))
             {
@@ -279,8 +278,9 @@ namespace ble.test
             string parameters = textBox3.Text.ToString();
             listDevice.Items.Clear();
             listStatus.Items.Add("Start Scan");
-            
-            var result = ble2.StartScan(parameters, (d) => listStatus.Items.Add(d));
+
+            // var result = ble2.StartScan(parameters, (d) => listStatus.Items.Add(d));
+            var result = ble2.StartScan(parameters, (d) => { });
 
             listStatus.Items.Add(result.ToString());
             if (result.Equals(ERROR_CODE.BLE_FOUND_DEVICE))
@@ -401,6 +401,10 @@ namespace ble.test
         private void button14_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
         }
     }
 }

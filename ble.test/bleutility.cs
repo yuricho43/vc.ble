@@ -57,7 +57,9 @@ namespace ble.test
         READ_FAIL,
         READ_INVALID_CHARACTERISTIC,
         READ_NOTHING_TO_READ,
-
+        READ_EXCEPTION_1,
+        READ_EXCEPTION_2,
+        READ_EXCEPTION_3,
         // Pair
         PAIRED_BLE,
         PAIRING_ALREADY_CONNECTED,
