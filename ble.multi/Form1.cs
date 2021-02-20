@@ -196,6 +196,7 @@ namespace ble.multi
         private async Task<ERROR_CODE> BleGetCharacteristic(DeviceList idx, string devName, string characterName)
         {
             ERROR_CODE result = ERROR_CODE.NONE;
+            
             try
             {
                 var parts = characterName.Split('/');
@@ -250,8 +251,8 @@ namespace ble.multi
             catch (Exception ex)
             {
                 result = ERROR_CODE.READ_EXCEPTION_1;
+                Console.WriteLine($"Read Exception");
             }
-            
             return result;
         }
 
@@ -343,27 +344,27 @@ namespace ble.multi
                     }
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_temp);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.BLE_NO_CONNECTED)) 
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ)) 
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_humidity);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.BLE_NO_CONNECTED))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_TVOC);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.BLE_NO_CONNECTED))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_FanSpeed);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.BLE_NO_CONNECTED))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_BatteryLevel);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.BLE_NO_CONNECTED))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
                 {
                     continue;
                 }

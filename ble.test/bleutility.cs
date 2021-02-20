@@ -30,6 +30,7 @@ namespace ble.test
     {
         // ERROR_NONE
         NONE,
+        CMD_WRONG_PARAMETER,
         // INFORMATION ENUM
         BLE_FOUND_DEVICE,
         BLE_CONNECTED,

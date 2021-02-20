@@ -143,7 +143,7 @@ namespace ble.test
             }
             if (string.IsNullOrEmpty(param))
             {
-                task_result = ERROR_CODE.READ_NOTHING_TO_READ;
+                task_result = ERROR_CODE.CMD_WRONG_PARAMETER;
                 Console.WriteLine("Nothing to read, please specify characteristic name or #.");
                 return task_result;
             }
