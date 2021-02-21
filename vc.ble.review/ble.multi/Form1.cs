@@ -344,27 +344,27 @@ namespace ble.multi
                     }
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_temp);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ)) 
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result != ERROR_CODE.NONE)) 
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_humidity);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result != ERROR_CODE.NONE))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_TVOC);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result != ERROR_CODE.NONE))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_FanSpeed);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result != ERROR_CODE.NONE))
                 {
                     continue;
                 }
                 result = await BleGetCharacteristic(idx, device_name, char_BatteryLevel);
-                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result == ERROR_CODE.READ_NOTHING_TO_READ))
+                if ((result == ERROR_CODE.BLE_NO_CONNECTED) || (result != ERROR_CODE.NONE))
                 {
                     continue;
                 }
